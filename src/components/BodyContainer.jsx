@@ -1,6 +1,8 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
 import BodyHeader from './BodyHeader';
+import WarehouseGrid from './WarehouseGrid';
+import OverviewContainer from './OverviewContainer';
 
 export default function BodyContainer() {
     return (
@@ -11,6 +13,8 @@ export default function BodyContainer() {
             minHeight="calc(100vh - 64px)" // Adjust based on your TopBar's height if different
         >
             <BodyHeader />
+            <OverviewContainer />
+            <WarehouseGrid />
         </Box>
     );
 }

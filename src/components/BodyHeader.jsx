@@ -2,6 +2,8 @@ import React from 'react';
 import { Box, Text, Tab, TabList, Tabs, Badge, Flex, IconButton } from '@chakra-ui/react';
 import { SettingsIcon, DownloadIcon } from '@chakra-ui/icons';
 import { MdOutlineDashboard } from "react-icons/md";
+import Grid1Holder from './Grid1Holder';
+import WarehouseGrid from './WarehouseGrid';
 
 
 const BodyHeader = () => {
