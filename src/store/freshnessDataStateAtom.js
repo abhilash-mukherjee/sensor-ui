@@ -20,3 +20,8 @@ export const ripeQtyState = atom({
     key: 'sensorReadingState',
     default: 58
   });
+
+  export const gridColorState = atom({
+    key: 'gridColorState',
+    default: 'green.500'
+  });

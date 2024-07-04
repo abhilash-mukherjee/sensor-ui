@@ -4,6 +4,7 @@ import TopBar from './components/TopBar';
 import './App.css';
 import BodyContainer from './components/BodyContainer';
 import { RecoilRoot } from 'recoil';
+import InitComponent from './components/InitComponent';
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
 <ChakraProvider>
       <Box minH="100vh" w="100%">
         <TopBar />
-        {/* Additional content can be added here */}
+        <InitComponent />
         <BodyContainer />
       </Box>
     </ChakraProvider>

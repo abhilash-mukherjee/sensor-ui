@@ -61,7 +61,7 @@ const ZonesReadyToDispatch = () => {
         {ripeQty + rawQty}
       </Text>
       <Text fontSize="md" color="gray.600">
-        Zones at risk
+        Zones Ready to Dispatch
       </Text>
     </Box>
   );

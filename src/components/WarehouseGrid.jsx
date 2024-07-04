@@ -5,9 +5,10 @@ import { sensorReadingState } from '../store/freshnessDataStateAtom';
 import { getLocationStatusFromSensorReading } from '../helper/helpers';
 
 const WarehouseGrid = () => {
+    const sensorReading= useRecoilValue(sensorReadingState);
     useEffect(() => {
         console.log("Component has been rendered");
-    }, []);
+    }, [sensorReading]);
     // Predefined array of colors for each cell, keeping the distribution of 12, 9, 3
     const colors = [
         'yellow.500', 'green.500', 'green.500', 'yellow.500', 'red.500', 'green.500',
@@ -27,8 +28,8 @@ const WarehouseGrid = () => {
             for (let col = 1; col <= 8; col++) {
                 const index = row * 8 + col - 1; // Calculate index for flat array access
                 const label = `${String.fromCharCode('A'.charCodeAt(0) + row)}${col}`;
-                const color = colors[index];
                 const isBtn = label === 'A3'
+                const color = isBtn ? getColourForStatus(getLocationStatusFromSensorReading(sensorReading)):colors[index];
                 items.push(
                     <GridItem
                         w="100%"
