@@ -109,9 +109,9 @@ function LocationDrawerContent({activeLabel}){
     const locationStatus = getLocationStatusFromSensorReading(sensorReading);
     return(
         <>
-         <div>Location: <b>{activeLabel}</b></div>
+         <div>Level: <b>{activeLabel}</b></div>
          <div>Sensor Reading: <b>{sensorReading}</b></div>
-         <Text color={getColourForStatus(locationStatus)}>Location Status: <b color={getColourForStatus(locationStatus)}>{locationStatus}</b></Text>
+         <Text color={getColourForStatus(locationStatus)}>Freshness Status: <b color={getColourForStatus(locationStatus)}>{locationStatus}</b></Text>
          <HUTab1/>
          <HUTab2/>
         </>

@@ -1,7 +1,7 @@
 export function getLocationStatusFromSensorReading(sensorReading){
-    if(sensorReading > 70) return 'ROTTEN';
-    if(sensorReading > 50) return 'RIPE';
-    if(sensorReading > 46) return 'RAW';
+    if(sensorReading > 80) return 'ROTTEN';
+    if(sensorReading > 60) return 'RIPE';
+    if(sensorReading > 50) return 'RAW';
     return 'RAW';
 }
 

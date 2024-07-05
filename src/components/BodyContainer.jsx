@@ -26,13 +26,17 @@ function PluginBody() {
     const isPluginActive = useRecoilValue(isPluginActivatedState);
     return (
         <>
+        {
+            isPluginActive?
             <Flex width={'100%'} p={4}
-                transition="transform 0.3s ease-in-out, opacity 0.3s ease-in-out"
-                transform={isPluginActive ? 'scale(1)' : 'scale(0)'}
-                opacity={isPluginActive ? 1 : 0}>
-                <OverviewContainer />
-                <WarehouseGrid />
-            </Flex>
+            transform={isPluginActive ? 'scale(1)' : 'scale(0)'}
+            opacity={isPluginActive ? 1 : 0}>
+            <OverviewContainer />
+            <WarehouseGrid />
+        </Flex>
+        :
+        <></>
+        }
 
         </>
     )

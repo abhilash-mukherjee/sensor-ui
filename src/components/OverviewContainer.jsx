@@ -11,8 +11,9 @@ export default function OverviewContainer() {
           gap={10}
           p={6}
         >
-          <ZoneRiskIndicator />
-          <ZonesReadyToDispatch />
+          <ZonesRotting />
+          <ZonesRipe />
+          <ZonesRaw />
         </Flex >
         <Flex
           paddingInline={6}
@@ -30,7 +31,7 @@ export default function OverviewContainer() {
 
 
 
-const ZoneRiskIndicator = () => {
+const ZonesRotting = () => {
   const rottingQty = useRecoilValue(rottenQtyState);
   return (
     <Box
@@ -39,22 +40,21 @@ const ZoneRiskIndicator = () => {
       borderRadius="lg"
       bg="white"
       textAlign="center"
-      width="150px" // Adjust size as needed
+      width="100px" // Adjust size as needed
       height="150px" // Adjust size as needed
     >
-      <Text fontSize="5xl" fontWeight="bold" color="red.600" mb={1}>
+      <Text fontSize="3xl" fontWeight="bold" color="red.600" mb={1}>
         {rottingQty}
       </Text>
-      <Text fontSize="sm" color="gray.600">
-        Zones at risk
+      <Text fontSize="xxs" color="gray.600">
+        Levels at Risk
       </Text>
     </Box>
   );
 };
 
 
-const ZonesReadyToDispatch = () => {
-  const rawQty = useRecoilValue(rawQtyState);
+const ZonesRipe = () => {
   const ripeQty = useRecoilValue(ripeQtyState);
   return (
     <Box
@@ -63,14 +63,36 @@ const ZonesReadyToDispatch = () => {
       borderRadius="lg"
       bg="white"
       textAlign="center"
-      width="150px" // Adjust size as needed
+      width="100px" // Adjust size as needed
       height="150px" // Adjust size as needed
     >
-      <Text fontSize="5xl" fontWeight="bold" color="green.600" mb={1}>
-        {ripeQty + rawQty}
+      <Text fontSize="3xl" fontWeight="bold" color="yellow.600" mb={1}>
+        {ripeQty }
       </Text>
-      <Text fontSize="sm" color="gray.600">
-        Zones Ready to Dispatch
+      <Text fontSize="xxs" color="gray.600">
+        Levels to Dispatch Nearby
+      </Text>
+    </Box>
+  );
+};
+
+const ZonesRaw = () => {
+  const rawQty = useRecoilValue(rawQtyState);
+  return (
+    <Box
+      p={3}
+      boxShadow="md"
+      borderRadius="lg"
+      bg="white"
+      textAlign="center"
+      width="100px" // Adjust size as needed
+      height="150px" // Adjust size as needed
+    >
+      <Text fontSize="3xl" fontWeight="bold" color="green.600" mb={1}>
+        { rawQty}
+      </Text>
+      <Text fontSize="xxs" color="gray.600">
+        Levels to Dispatch Far
       </Text>
     </Box>
   );

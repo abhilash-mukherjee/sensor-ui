@@ -4,6 +4,8 @@ import { SettingsIcon, DownloadIcon } from '@chakra-ui/icons';
 import { MdOutlineDashboard } from "react-icons/md";
 import Grid1Holder from './Grid1Holder';
 import WarehouseGrid from './WarehouseGrid';
+import { useRecoilState } from 'recoil';
+import { isPluginActivatedState } from '../store/freshnessDataStateAtom';
 
 
 const BodyHeader = () => {
@@ -23,6 +25,10 @@ const BodyHeader = () => {
 
 
 const InventoryHeader = () => {
+    const [isPluginActivated, setIsPluginActivated] = useRecoilState(isPluginActivatedState);
+    const handlePluginActivation = () => {
+        setIsPluginActivated(!isPluginActivated);
+    };
     return (
         <Flex
             align="center"
@@ -45,9 +51,14 @@ const InventoryHeader = () => {
                     mr={2}
                 />
                 <IconButton
-                    aria-label="Download"
-                    icon={<MdOutlineDashboard />}
+                    aria-label="Dashboard"
+                    onClick={handlePluginActivation}
+                    icon={<MdOutlineDashboard height="100%" width="100%" />}
                     size="sm"
+                    bg={isPluginActivated ? '#B8B6EB' : "gray.200"}
+                    _hover={{
+                        bg: isPluginActivated ? 'purple.300' : 'gray.200',
+                    }}
                 />
             </Box>
         </Flex>

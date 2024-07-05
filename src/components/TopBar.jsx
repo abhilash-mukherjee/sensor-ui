@@ -7,7 +7,8 @@ const TopBar = () => {
     <Box
       as="header"
       w="100%"
-      p={4}
+      paddingInline={8}
+      paddingBlock={4}
       color="white"
       display="flex"
       alignItems="left"
