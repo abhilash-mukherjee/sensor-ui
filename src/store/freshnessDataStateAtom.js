@@ -25,3 +25,8 @@ export const ripeQtyState = atom({
     key: 'gridColorState',
     default: 'green.500'
   });
+
+  export const isPluginActivatedState = atom ({
+    key: 'isPluginActivatedState',
+    default: true
+  })

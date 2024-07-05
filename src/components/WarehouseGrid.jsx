@@ -74,8 +74,8 @@ const WarehouseGrid = () => {
     };
 
     return (
-        <Box p={5} borderWidth="1px" borderRadius="lg">
-            <Text fontSize="lg" fontWeight="bold" mb={2}>Aisle A - Zone A</Text>
+        <Box p={5} borderWidth="1px" borderRadius="lg" flex={1} bgColor='gray.50'>
+            {/* <Text fontSize="lg" fontWeight="bold" mb={2}>Aisle A - Zone A</Text> */}
             <Grid templateColumns="repeat(8, 1fr)" gap={2}>
                 {renderGridItems()}
             </Grid>
