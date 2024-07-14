@@ -3,6 +3,7 @@ import { Box, Grid, GridItem, Text, Button, Drawer, DrawerOverlay, DrawerContent
 import { useRecoilValue } from 'recoil';
 import { sensorReadingState } from '../store/freshnessDataStateAtom';
 import { getLocationStatusFromSensorReading } from '../helper/helpers';
+import { ImmovableSpaceWithoutSensor } from './grid_components/ImmovableSpaceWithoutSensor';
 
 const WarehouseGrid = () => {
     const sensorReading= useRecoilValue(sensorReadingState);
@@ -17,9 +18,9 @@ const WarehouseGrid = () => {
         'yellow.500', 'green.500', 'yellow.500', 'red.500', 'red.500', 'green.500'
     ];
 
-    const [activeLabel, setActiveLabel] = useState(null);
-    const isOpen = activeLabel != null;
-    const onClose = () => setActiveLabel(null);
+    const [activeImmovableSpace, setActiveImmovableSpace] = useState(null);
+    const isOpen = activeImmovableSpace != null;
+    const onClose = () => setActiveImmovableSpace(null);
 
     const renderGridItems = () => {
 
@@ -27,8 +28,8 @@ const WarehouseGrid = () => {
         for (let row = 0; row < 3; row++) {
             for (let col = 1; col <= 8; col++) {
                 const index = row * 8 + col - 1; // Calculate index for flat array access
-                const label = `${String.fromCharCode('A'.charCodeAt(0) + row)}${col}`;
-                const isBtn = label === 'A3'
+                const imovableSpacePath = `${String.fromCharCode('A'.charCodeAt(0) + row)}${col}`;
+                const isBtn = imovableSpacePath === 'A3'
                 const color = isBtn ? getColourForStatus(getLocationStatusFromSensorReading(sensorReading)):colors[index];
                 items.push(
                     <GridItem
@@ -36,13 +37,13 @@ const WarehouseGrid = () => {
                         h="20"
                         bg={color}
                         borderRadius="md"
-                        key={label}
+                        key={imovableSpacePath}
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
                     >
                         {isBtn ? <Button
-                            onClick={() => setActiveLabel(label)}
+                            onClick={() => setActiveImmovableSpace(imovableSpacePath)}
                             variant="ghost"
                             backgroundColor="transparent"
                             _hover={{ bg: 'transparent' }}
@@ -51,20 +52,9 @@ const WarehouseGrid = () => {
                             width={'100%'}
                             height={'100%'}
                         >
-                            {label}
+                            {imovableSpacePath}
                         </Button> :
-                            <Button
-                            onClick={() => alert("No sensor installed corresponding to this location")}
-                            variant="ghost"
-                            backgroundColor="transparent"
-                            _hover={{ bg: 'transparent' }}
-                            _active={{ bg: 'transparent' }}
-                            cursor={'default'}
-                            width={'100%'}
-                            height={'100%'}
-                        >
-                            {label}
-                        </Button>
+                            <ImmovableSpaceWithoutSensor imovableSpacePath = {imovableSpacePath} />
                         }
                     </GridItem>
                 );
@@ -91,7 +81,7 @@ const WarehouseGrid = () => {
                         <DrawerCloseButton />
                         <DrawerHeader>Level Details</DrawerHeader>
                         <DrawerBody>
-                            <LocationDrawerContent activeLabel={activeLabel}/>
+                            <LocationDrawerContent activeImmovableSpace={activeImmovableSpace}/>
                         </DrawerBody>
                         <DrawerFooter>
                             <Button variant='outline' mr={3} onClick={onClose}>Cancel</Button>
@@ -104,12 +94,12 @@ const WarehouseGrid = () => {
     );
 };
 
-function LocationDrawerContent({activeLabel}){
+function LocationDrawerContent({activeImmovableSpace}){
     const sensorReading = useRecoilValue(sensorReadingState);
     const locationStatus = getLocationStatusFromSensorReading(sensorReading);
     return(
         <>
-         <div>Level: <b>{activeLabel}</b></div>
+         <div>Level: <b>{activeImmovableSpace}</b></div>
          <div>Sensor Reading: <b>{sensorReading}</b></div>
          <Text color={getColourForStatus(locationStatus)}>Freshness Status: <b color={getColourForStatus(locationStatus)}>{locationStatus}</b></Text>
          <HUTab1/>
