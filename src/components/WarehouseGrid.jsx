@@ -4,6 +4,10 @@ import { useRecoilValue } from 'recoil';
 import { sensorReadingState } from '../store/freshnessDataStateAtom';
 import { getLocationStatusFromSensorReading } from '../helper/helpers';
 import { ImmovableSpaceWithoutSensor } from './grid_components/ImmovableSpaceWithoutSensor';
+import { ImmovableSpaceWithSensor } from './grid_components/ImmovableSpaceWithSensor';
+
+const immovableSpace1Path = import.meta.env.VITE_IMMOVABLE_SPACE_1_PATH;
+const immovableSpace2Path = import.meta.env.VITE_IMMOVABLE_SPACE_2_PATH;
 
 const WarehouseGrid = () => {
     const sensorReading= useRecoilValue(sensorReadingState);
@@ -29,7 +33,7 @@ const WarehouseGrid = () => {
             for (let col = 1; col <= 8; col++) {
                 const index = row * 8 + col - 1; // Calculate index for flat array access
                 const imovableSpacePath = `${String.fromCharCode('A'.charCodeAt(0) + row)}${col}`;
-                const isBtn = imovableSpacePath === 'A3'
+                const isBtn = imovableSpacePath === immovableSpace1Path || imovableSpacePath === immovableSpace2Path
                 const color = isBtn ? getColourForStatus(getLocationStatusFromSensorReading(sensorReading)):colors[index];
                 items.push(
                     <GridItem
@@ -42,18 +46,7 @@ const WarehouseGrid = () => {
                         alignItems="center"
                         justifyContent="center"
                     >
-                        {isBtn ? <Button
-                            onClick={() => setActiveImmovableSpace(imovableSpacePath)}
-                            variant="ghost"
-                            backgroundColor="transparent"
-                            _hover={{ bg: 'transparent' }}
-                            _active={{ bg: 'transparent' }}
-                            cursor={'pointer'}
-                            width={'100%'}
-                            height={'100%'}
-                        >
-                            {imovableSpacePath}
-                        </Button> :
+                        {isBtn ? <ImmovableSpaceWithSensor imovableSpacePath={imovableSpacePath} setActiveImmovableSpace={setActiveImmovableSpace}/> :
                             <ImmovableSpaceWithoutSensor imovableSpacePath = {imovableSpacePath} />
                         }
                     </GridItem>
