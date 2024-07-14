@@ -6,6 +6,7 @@ import { getLocationStatusFromSensorReading } from '../helper/helpers';
 import { ImmovableSpaceWithoutSensor } from './grid_components/ImmovableSpaceWithoutSensor';
 import { ImmovableSpaceWithSensor } from './grid_components/ImmovableSpaceWithSensor';
 import { LocationDrawerContent } from './drawer_components/LocationDrawerContent';
+import { ImmovableSpaceInfoDrawer } from './ImmovableSpaceInfoDrawer';
 
 const immovableSpace1Path = import.meta.env.VITE_IMMOVABLE_SPACE_1_PATH;
 const immovableSpace2Path = import.meta.env.VITE_IMMOVABLE_SPACE_2_PATH;
@@ -64,25 +65,7 @@ const WarehouseGrid = () => {
                 {renderGridItems()}
             </Grid>
             {isOpen && (
-                <Drawer
-                    isOpen={isOpen}
-                    placement='right'
-                    onClose={onClose}
-                    size={'md'}
-                >
-                    <DrawerOverlay />
-                    <DrawerContent>
-                        <DrawerCloseButton />
-                        <DrawerHeader>Level Details</DrawerHeader>
-                        <DrawerBody>
-                            <LocationDrawerContent activeImmovableSpace={activeImmovableSpace}/>
-                        </DrawerBody>
-                        <DrawerFooter>
-                            <Button variant='outline' mr={3} onClick={onClose}>Cancel</Button>
-                            <Button colorScheme='blue' onClick={onClose}>Close</Button>
-                        </DrawerFooter>
-                    </DrawerContent>
-                </Drawer>
+                <ImmovableSpaceInfoDrawer isOpen={isOpen} onClose={onClose} activeImmovableSpace={activeImmovableSpace}/>
             )}
         </Box>
     );
@@ -94,7 +77,5 @@ function getColourForStatus(status){
     if(status === 'ROTTEN') return 'red.500'
     return 'white'
  }
-
- 
 
 export default WarehouseGrid;
