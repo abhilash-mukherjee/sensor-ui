@@ -1,7 +1,12 @@
-import { Box, Grid, GridItem, Text, Button, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, Flex } from '@chakra-ui/react';
+import { Button, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter } from '@chakra-ui/react';
 import { LocationDrawerContent } from './drawer_components/LocationDrawerContent';
+import { useRecoilState } from 'recoil';
+import { activeImmovableSpaceState } from '../store/activeImmovableSpaceAtom';
 
-export function ImmovableSpaceInfoDrawer({isOpen, onClose, activeImmovableSpace}) {
+export function ImmovableSpaceInfoDrawer() {
+    const [activeImmovableSpace, setActiveImmovableSpace] = useRecoilState(activeImmovableSpaceState);
+    const isOpen = activeImmovableSpace != null;
+    const onClose = () => setActiveImmovableSpace(null);
     return (
         <>
             <Drawer

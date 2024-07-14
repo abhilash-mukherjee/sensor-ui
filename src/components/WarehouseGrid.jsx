@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Grid, GridItem, Text, Button, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, Flex } from '@chakra-ui/react';
-import { useRecoilValue } from 'recoil';
+import { Box, Grid, GridItem } from '@chakra-ui/react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { sensorReadingState } from '../store/freshnessDataStateAtom';
 import { getLocationStatusFromSensorReading } from '../helper/helpers';
 import { ImmovableSpaceWithoutSensor } from './grid_components/ImmovableSpaceWithoutSensor';
 import { ImmovableSpaceWithSensor } from './grid_components/ImmovableSpaceWithSensor';
-import { LocationDrawerContent } from './drawer_components/LocationDrawerContent';
 import { ImmovableSpaceInfoDrawer } from './ImmovableSpaceInfoDrawer';
+import { activeImmovableSpaceState } from '../store/activeImmovableSpaceAtom';
 
 const immovableSpace1Path = import.meta.env.VITE_IMMOVABLE_SPACE_1_PATH;
 const immovableSpace2Path = import.meta.env.VITE_IMMOVABLE_SPACE_2_PATH;
@@ -24,9 +24,8 @@ const WarehouseGrid = () => {
         'yellow.500', 'green.500', 'yellow.500', 'red.500', 'red.500', 'green.500'
     ];
 
-    const [activeImmovableSpace, setActiveImmovableSpace] = useState(null);
+    const activeImmovableSpace = useRecoilValue(activeImmovableSpaceState);
     const isOpen = activeImmovableSpace != null;
-    const onClose = () => setActiveImmovableSpace(null);
 
     const renderGridItems = () => {
 
@@ -35,8 +34,8 @@ const WarehouseGrid = () => {
             for (let col = 1; col <= 8; col++) {
                 const index = row * 8 + col - 1; // Calculate index for flat array access
                 const imovableSpacePath = `${String.fromCharCode('A'.charCodeAt(0) + row)}${col}`;
-                const isBtn = imovableSpacePath === immovableSpace1Path || imovableSpacePath === immovableSpace2Path
-                const color = isBtn ? getColourForStatus(getLocationStatusFromSensorReading(sensorReading)):colors[index];
+                const isSensorPresent = imovableSpacePath === immovableSpace1Path || imovableSpacePath === immovableSpace2Path
+                const color = isSensorPresent ? getColourForStatus(getLocationStatusFromSensorReading(sensorReading)):colors[index];
                 items.push(
                     <GridItem
                         w="100%"
@@ -48,7 +47,7 @@ const WarehouseGrid = () => {
                         alignItems="center"
                         justifyContent="center"
                     >
-                        {isBtn ? <ImmovableSpaceWithSensor imovableSpacePath={imovableSpacePath} setActiveImmovableSpace={setActiveImmovableSpace}/> :
+                        {isSensorPresent ? <ImmovableSpaceWithSensor imovableSpacePath={imovableSpacePath} /> :
                             <ImmovableSpaceWithoutSensor imovableSpacePath = {imovableSpacePath} />
                         }
                     </GridItem>
@@ -65,7 +64,7 @@ const WarehouseGrid = () => {
                 {renderGridItems()}
             </Grid>
             {isOpen && (
-                <ImmovableSpaceInfoDrawer isOpen={isOpen} onClose={onClose} activeImmovableSpace={activeImmovableSpace}/>
+                <ImmovableSpaceInfoDrawer />
             )}
         </Box>
     );

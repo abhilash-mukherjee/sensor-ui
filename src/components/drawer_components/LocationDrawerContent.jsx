@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
 import { sensorReadingState } from "../../store/freshnessDataStateAtom";
 import { getLocationStatusFromSensorReading } from "../../helper/helpers";
-import { Box, Grid, GridItem, Text, Button, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, Flex } from '@chakra-ui/react';
+import { Box, Text, Flex } from '@chakra-ui/react';
 
 export function LocationDrawerContent({activeImmovableSpace}){
     const sensorReading = useRecoilValue(sensorReadingState);
