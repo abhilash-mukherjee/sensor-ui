@@ -10,18 +10,19 @@ import {
   Button,
   Badge
 } from '@chakra-ui/react';
+import { FreshnessStatus } from '../enums/FreshnessStatus';
 
 const InventoryTable = () => {
   const data = [
-    { id: 'Bn1', description: 'Banana1', zone: 'Perishable', location: 'B3', hu: 'HU123', vendor: 'HV01', batchId: 'HV012', locked: 'No', qty: '200', toBePicked: '200', uom: 'Eaches', state: 'Raw', inboundDate: '4/29/2024' },
-    { id: 'Bn2', description: 'Banana12', zone: 'Perishable', location: 'C1', hu: 'HU246', vendor: 'HV02', batchId: 'HV01', locked: 'No', qty: '150', toBePicked: '200', uom: 'Eaches', state: 'Rotten', inboundDate: '4/29/2024' },
-    { id: 'Ap f2', description: 'Apple 2', zone: 'Perishable', location: 'A2', hu: 'HU498', vendor: 'HV03', batchId: 'HV02', locked: 'No', qty: '150', toBePicked: '200', uom: 'Eaches', state: 'Ripe', inboundDate: '1/20/2024' },
-    { id: 'BT_904', description: 'Guava22', zone: 'Perishable', location: 'C7', hu: 'HU428', vendor: 'HV04', batchId: 'BTH1', locked: 'No', qty: '200', toBePicked: '200', uom: 'Eaches', state: 'Ripe', inboundDate: '1/29/2024' },
-    { id: 'BT_904', description: 'Oranges 96', zone: 'Perishable', location: 'B6', hu: 'HU918', vendor: 'HV05', batchId: 'BTH2', locked: 'No', qty: '200', toBePicked: '200', uom: 'Eaches', state: 'Ripe', inboundDate: '1/29/2024' },
-    { id: 'BT_904', description: 'Dragon fruit 45', zone: 'Perishable', location: 'A6', hu: 'HU411', vendor: 'HV02', batchId: 'BTH3', locked: 'No', qty: '200', toBePicked: '200', uom: 'Eaches', state: 'Ripe', inboundDate: '1/29/2024' },
-    { id: 'BT_904', description: 'Dragon fruit 45', zone: 'Perishable', location: 'A6', hu: 'HU411', vendor: 'HV02', batchId: 'BTH3', locked: 'No', qty: '200', toBePicked: '200', uom: 'Eaches', state: 'Raw', inboundDate: '1/29/2024' },
-    { id: 'BT_904', description: 'Dragon fruit 45', zone: 'Perishable', location: 'A6', hu: 'HU411', vendor: 'HV02', batchId: 'BTH3', locked: 'No', qty: '200', toBePicked: '200', uom: 'Eaches', state: 'Raw', inboundDate: '1/29/2024' },
-    { id: 'BT_904', description: 'Dragon fruit 45', zone: 'Perishable', location: 'A6', hu: 'HU411', vendor: 'HV02', batchId: 'BTH3', locked: 'No', qty: '200', toBePicked: '200', uom: 'Eaches', state: 'Ripe', inboundDate: '1/29/2024' }
+    { id: 'Bn1', description: 'Banana1', zone: 'Perishable', location: 'B3', hu: 'HU123', vendor: 'HV01', batchId: 'HV012', locked: 'No', qty: '200', toBePicked: '200', uom: 'Eaches', state: FreshnessStatus.Premature, inboundDate: '4/29/2024' },
+    { id: 'Bn2', description: 'Banana12', zone: 'Perishable', location: 'C1', hu: 'HU246', vendor: 'HV02', batchId: 'HV01', locked: 'No', qty: '150', toBePicked: '200', uom: 'Eaches', state: FreshnessStatus.Rotten, inboundDate: '4/29/2024' },
+    { id: 'Ap f2', description: 'Apple 2', zone: 'Perishable', location: 'A2', hu: 'HU498', vendor: 'HV03', batchId: 'HV02', locked: 'No', qty: '150', toBePicked: '200', uom: 'Eaches', state: FreshnessStatus.Edible, inboundDate: '1/20/2024' },
+    { id: 'BT_904', description: 'Guava22', zone: 'Perishable', location: 'C7', hu: 'HU428', vendor: 'HV04', batchId: 'BTH1', locked: 'No', qty: '200', toBePicked: '200', uom: 'Eaches', state: FreshnessStatus.Edible, inboundDate: '1/29/2024' },
+    { id: 'BT_904', description: 'Oranges 96', zone: 'Perishable', location: 'B6', hu: 'HU918', vendor: 'HV05', batchId: 'BTH2', locked: 'No', qty: '200', toBePicked: '200', uom: 'Eaches', state: FreshnessStatus.Edible, inboundDate: '1/29/2024' },
+    { id: 'BT_904', description: 'Dragon fruit 45', zone: 'Perishable', location: 'A6', hu: 'HU411', vendor: 'HV02', batchId: 'BTH3', locked: 'No', qty: '200', toBePicked: '200', uom: 'Eaches', state: FreshnessStatus.Edible, inboundDate: '1/29/2024' },
+    { id: 'BT_904', description: 'Dragon fruit 45', zone: 'Perishable', location: 'A6', hu: 'HU411', vendor: 'HV02', batchId: 'BTH3', locked: 'No', qty: '200', toBePicked: '200', uom: 'Eaches', state: FreshnessStatus.Premature, inboundDate: '1/29/2024' },
+    { id: 'BT_904', description: 'Dragon fruit 45', zone: 'Perishable', location: 'A6', hu: 'HU411', vendor: 'HV02', batchId: 'BTH3', locked: 'No', qty: '200', toBePicked: '200', uom: 'Eaches', state: FreshnessStatus.Rotten, inboundDate: '1/29/2024' },
+    { id: 'BT_904', description: 'Dragon fruit 45', zone: 'Perishable', location: 'A6', hu: 'HU411', vendor: 'HV02', batchId: 'BTH3', locked: 'No', qty: '200', toBePicked: '200', uom: 'Eaches', state: FreshnessStatus.Premature, inboundDate: '1/29/2024' }
   ];
 
   const stateColors = {
@@ -74,8 +75,8 @@ const InventoryTable = () => {
               <Td>{item.toBePicked}</Td>
               <Td>{item.uom}</Td>
               <Td>
-                <Badge colorScheme={stateColors[item.state] || 'gray'}>
-                  {item.state}
+                <Badge colorScheme={item.state.standardColor || 'grey'}>
+                  {item.state.description}
                 </Badge>
               </Td>
               <Td>{item.inboundDate}</Td>
