@@ -1,12 +1,14 @@
 import { Button, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter } from '@chakra-ui/react';
 import { LocationDrawerContent } from './drawer_components/LocationDrawerContent';
-import { useRecoilState } from 'recoil';
-import { activeImmovableSpaceState } from '../store/activeImmovableSpaceAtom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { activeImmovableSpacePathState, getImmovableSpaceName } from '../store/activeImmovableSpaceAtom';
 
 export function ImmovableSpaceInfoDrawer() {
-    const [activeImmovableSpace, setActiveImmovableSpace] = useRecoilState(activeImmovableSpaceState);
-    const isOpen = activeImmovableSpace != null;
-    const onClose = () => setActiveImmovableSpace(null);
+    const [activeImmovableSpacePath, setActiveImmovableSpacePath] = useRecoilState(activeImmovableSpacePathState);
+    const activeImmovableSpaceName = useRecoilValue(getImmovableSpaceName);
+    const isOpen = activeImmovableSpacePath != null;
+    const onClose = () => setActiveImmovableSpacePath(null);
+    const onCalibrate = () => alert("Calibrate for: " + activeImmovableSpaceName);
     return (
         <>
             <Drawer
@@ -20,11 +22,11 @@ export function ImmovableSpaceInfoDrawer() {
                     <DrawerCloseButton />
                     <DrawerHeader>Level Details</DrawerHeader>
                     <DrawerBody>
-                        <LocationDrawerContent activeImmovableSpace={activeImmovableSpace} />
+                        <LocationDrawerContent activeImmovableSpacePath={activeImmovableSpacePath} />
                     </DrawerBody>
                     <DrawerFooter>
-                        <Button variant='outline' mr={3} onClick={onClose}>Cancel</Button>
-                        <Button colorScheme='blue' onClick={onClose}>Close</Button>
+                        <Button variant='outline' mr={3} onClick={onClose}>Close</Button>
+                        <Button colorScheme='blue' onClick={onCalibrate}>Calibrate</Button>
                     </DrawerFooter>
                 </DrawerContent>
             </Drawer>

@@ -1,13 +1,16 @@
 import { Box, Grid, GridItem, Text, Button, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, Flex } from '@chakra-ui/react';
 import { useSetRecoilState } from 'recoil';
-import { activeImmovableSpaceState } from '../../store/activeImmovableSpaceAtom';
+import { activeImmovableSpacePathState } from '../../store/activeImmovableSpaceAtom';
 
 export function ImmovableSpaceWithSensor({ imovableSpacePath }) {
-    const setActiveImmovableSpace = useSetRecoilState(activeImmovableSpaceState);
+    const setActiveImmovableSpacePath = useSetRecoilState(activeImmovableSpacePathState);
     return (
         <>
             <Button
-                onClick={() => setActiveImmovableSpace(imovableSpacePath)}
+                onClick={() => {
+                    setActiveImmovableSpacePath(imovableSpacePath);
+                    console.log("Set active immovable space path: ", imovableSpacePath)
+                }}
                 variant="ghost"
                 backgroundColor="transparent"
                 _hover={{ bg: 'transparent' }}

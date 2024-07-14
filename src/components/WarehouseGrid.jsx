@@ -6,7 +6,7 @@ import { getLocationStatusFromSensorReading } from '../helper/helpers';
 import { ImmovableSpaceWithoutSensor } from './grid_components/ImmovableSpaceWithoutSensor';
 import { ImmovableSpaceWithSensor } from './grid_components/ImmovableSpaceWithSensor';
 import { ImmovableSpaceInfoDrawer } from './ImmovableSpaceInfoDrawer';
-import { activeImmovableSpaceState } from '../store/activeImmovableSpaceAtom';
+import { activeImmovableSpacePathState } from '../store/activeImmovableSpaceAtom';
 
 const immovableSpace1Path = import.meta.env.VITE_IMMOVABLE_SPACE_1_PATH;
 const immovableSpace2Path = import.meta.env.VITE_IMMOVABLE_SPACE_2_PATH;
@@ -24,7 +24,7 @@ const WarehouseGrid = () => {
         'yellow.500', 'green.500', 'yellow.500', 'red.500', 'red.500', 'green.500'
     ];
 
-    const activeImmovableSpace = useRecoilValue(activeImmovableSpaceState);
+    const activeImmovableSpace = useRecoilValue(activeImmovableSpacePathState);
     const isOpen = activeImmovableSpace != null;
 
     const renderGridItems = () => {

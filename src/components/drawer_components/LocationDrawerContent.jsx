@@ -2,17 +2,28 @@ import { useRecoilValue } from "recoil";
 import { sensorReadingState } from "../../store/freshnessDataStateAtom";
 import { getLocationStatusFromSensorReading } from "../../helper/helpers";
 import { Box, Text, Flex } from '@chakra-ui/react';
+import { immovableSpace1State, immovableSpace2State } from "../../store/immovableSpaceDataAtoms";
+import {SensorDataContainer } from '../drawer_components/SensorDataContainer'
+const immovableSpace1Path = import.meta.env.VITE_IMMOVABLE_SPACE_1_PATH;
+const immovableSpace2Path = import.meta.env.VITE_IMMOVABLE_SPACE_2_PATH;
 
-export function LocationDrawerContent({activeImmovableSpace}){
+export function LocationDrawerContent({activeImmovableSpacePath}){
     const sensorReading = useRecoilValue(sensorReadingState);
+    const immovableSpace1 = useRecoilValue(immovableSpace1State);
+    const immovableSpace2 = useRecoilValue(immovableSpace2State);
+    const isDataAvailable = immovableSpace1.sensorData && immovableSpace2.sensorData;
     const locationStatus = getLocationStatusFromSensorReading(sensorReading);
+    const sensorData = (activeImmovableSpacePath === immovableSpace1Path ? useRecoilValue(immovableSpace1State) : useRecoilValue(immovableSpace2State)).sensorData;
     return(
         <>
-         <div>Level: <b>{activeImmovableSpace}</b></div>
+         <div>Level: <b>{activeImmovableSpacePath}</b></div>
          <div>Sensor Reading: <b>{sensorReading}</b></div>
          <Text color={getColourForStatus(locationStatus)}>Freshness Status: <b color={getColourForStatus(locationStatus)}>{locationStatus}</b></Text>
          <HUTab1/>
          <HUTab2/>
+         {!isDataAvailable ? <Text>Loading Sensor Data...</Text> 
+         : <SensorDataContainer sensorData={sensorData}/>
+         }
         </>
     )
 }
