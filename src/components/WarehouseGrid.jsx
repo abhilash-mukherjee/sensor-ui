@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Grid, GridItem } from '@chakra-ui/react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { sensorReadingState } from '../store/freshnessDataStateAtom';
-import { getLocationStatusFromSensorReading } from '../helper/helpers';
+import { getLocationStatus, getLocationStatusFromSensorReading } from '../helper/helpers';
 import { ImmovableSpaceWithoutSensor } from './grid_components/ImmovableSpaceWithoutSensor';
 import { ImmovableSpaceWithSensor } from './grid_components/ImmovableSpaceWithSensor';
 import { ImmovableSpaceInfoDrawer } from './ImmovableSpaceInfoDrawer';
 import { activeImmovableSpacePathState } from '../store/activeImmovableSpaceAtom';
+import { immovableSpace1State, immovableSpace2State } from '../store/immovableSpaceDataAtoms';
 
 const immovableSpace1Path = import.meta.env.VITE_IMMOVABLE_SPACE_1_PATH;
 const immovableSpace2Path = import.meta.env.VITE_IMMOVABLE_SPACE_2_PATH;
 
 const WarehouseGrid = () => {
-    const sensorReading= useRecoilValue(sensorReadingState);
+    const immovableSpace1 = useRecoilValue(immovableSpace1State);
+    const immovableSpace2 = useRecoilValue(immovableSpace2State);
     useEffect(() => {
         console.log("Component has been rendered");
-    }, [sensorReading]);
+    }, [immovableSpace1, immovableSpace2]);
     // Predefined array of colors for each cell, keeping the distribution of 12, 9, 3
     const colors = [
         'yellow.500', 'green.500', 'green.500', 'yellow.500', 'red.500', 'green.500',
@@ -24,8 +25,8 @@ const WarehouseGrid = () => {
         'yellow.500', 'green.500', 'yellow.500', 'red.500', 'red.500', 'green.500'
     ];
 
-    const activeImmovableSpace = useRecoilValue(activeImmovableSpacePathState);
-    const isOpen = activeImmovableSpace != null;
+    const activeImmovableSpacePath = useRecoilValue(activeImmovableSpacePathState);
+    const isOpen = activeImmovableSpacePath != null;
 
     const renderGridItems = () => {
 
@@ -34,8 +35,10 @@ const WarehouseGrid = () => {
             for (let col = 1; col <= 8; col++) {
                 const index = row * 8 + col - 1; // Calculate index for flat array access
                 const imovableSpacePath = `${String.fromCharCode('A'.charCodeAt(0) + row)}${col}`;
-                const isSensorPresent = imovableSpacePath === immovableSpace1Path || imovableSpacePath === immovableSpace2Path
-                const color = isSensorPresent ? getColourForStatus(getLocationStatusFromSensorReading(sensorReading)):colors[index];
+                const isSensorPresent = imovableSpacePath === immovableSpace1Path || imovableSpacePath === immovableSpace2Path;
+                const activeImmovableSpace = imovableSpacePath === immovableSpace1Path ?  immovableSpace1: immovableSpace2;
+                const isDataAvailable = activeImmovableSpace.sensorData;
+                const color = isSensorPresent && isDataAvailable? getLocationStatus(activeImmovableSpace).color : colors[index];
                 items.push(
                     <GridItem
                         w="100%"
@@ -47,7 +50,7 @@ const WarehouseGrid = () => {
                         alignItems="center"
                         justifyContent="center"
                     >
-                        {isSensorPresent ? <ImmovableSpaceWithSensor imovableSpacePath={imovableSpacePath} /> :
+                        {isSensorPresent ? <ImmovableSpaceWithSensor imovableSpacePath={imovableSpacePath} immovableSpaceData={activeImmovableSpace}/> :
                             <ImmovableSpaceWithoutSensor imovableSpacePath = {imovableSpacePath} />
                         }
                     </GridItem>

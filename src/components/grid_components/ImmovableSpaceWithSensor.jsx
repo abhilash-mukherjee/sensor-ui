@@ -2,7 +2,7 @@ import { Box, Grid, GridItem, Text, Button, Drawer, DrawerOverlay, DrawerContent
 import { useSetRecoilState } from 'recoil';
 import { activeImmovableSpacePathState } from '../../store/activeImmovableSpaceAtom';
 
-export function ImmovableSpaceWithSensor({ imovableSpacePath }) {
+export function ImmovableSpaceWithSensor({ imovableSpacePath, immovableSpaceData }) {
     const setActiveImmovableSpacePath = useSetRecoilState(activeImmovableSpacePathState);
     return (
         <>
