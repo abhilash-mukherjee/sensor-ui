@@ -1,6 +1,6 @@
 import { useRecoilValue } from "recoil";
 import { sensorReadingState } from "../../store/freshnessDataStateAtom";
-import { getLocationStatus, getLocationStatusFromSensorReading } from "../../helper/helpers";
+import { getLocationStatus, getLocationStatusFromSensorReading, getPrediction } from "../../helper/helpers";
 import { Box, Text, Flex } from '@chakra-ui/react';
 import { immovableSpace1State, immovableSpace2State } from "../../store/immovableSpaceDataAtoms";
 import { SensorDataContainer } from '../drawer_components/SensorDataContainer'
@@ -20,14 +20,64 @@ export function LocationDrawerContent({ activeImmovableSpacePath }) {
         <>
             <div>Level: <b>{activeImmovableSpacePath}</b></div>
             <FreshnessStatusContainer isDataAvailable={isDataAvailable} locationStatus={locationStatus} />
-            <ChartContainer activeImmovableSpacePath={activeImmovableSpacePath} locationStatus={locationStatus}/>
             {!isDataAvailable ? <Text>Loading Sensor Data...</Text>
-                : <SensorDataContainer sensorData={sensorData} />
+                :
+                <>
+                    <ChartContainer activeImmovableSpacePath={activeImmovableSpacePath} locationStatus={locationStatus} />
+                    <PredictionContainer activeImmovableSpace= {activeImmovableSpace}/>
+                    <SensorDataContainer sensorData={sensorData} />
+                </>
             }
             <HUTab1 sku={activeImmovableSpace.immovableSpace ? activeImmovableSpace.immovableSpace.sku : "Loading..."} />
             <HUTab2 sku={activeImmovableSpace.immovableSpace ? activeImmovableSpace.immovableSpace.sku : "Loading..."} />
         </>
     )
+}
+function PredictionContainer({ activeImmovableSpace }) {
+    const prediction = getPrediction(activeImmovableSpace);
+
+    const renderPrediction = () => {
+        if (prediction.includes("Ripen By")) {
+            const [ripeByPart, rotByPart] = prediction.split(', Rott By: ');
+            const ripeDate = ripeByPart.replace('Ripen By: ', '');
+            const rotDate = rotByPart;
+
+            return (
+                <>
+                    <Text fontWeight="bold">
+                        <Text as="span" fontWeight="bold" color="yellow.500">Ripen By:</Text> {ripeDate}
+                    </Text>
+                    <Text fontWeight="bold">
+                        <Text as="span" fontWeight="bold" color="red.500">Rott By:</Text> {rotDate}
+                    </Text>
+                </>
+            );
+        } else if (prediction === "Already rotten.") {
+            return (
+                <Text fontWeight="bold" color="red.500">{prediction}</Text>
+            );
+        } else if (prediction.includes("Rott by")) {
+            const rotDate = prediction.replace('Rott by ', '');
+            return (
+                <Text fontWeight="bold">
+                    <Text as="span"  color="red.500">Rott By:</Text> {rotDate}
+                </Text>
+            );
+        } else {
+            return <Text fontWeight="bold">{prediction}</Text>;  // Default or error case
+        }
+    };
+
+    return (
+        <Box
+            bg={'gray.100'}
+            borderRadius="md"
+            paddingInline={4}
+            marginTop={4}
+            paddingBlock={2}>
+            {renderPrediction()}
+        </Box>
+    );
 }
 
 function FreshnessStatusContainer({ isDataAvailable, locationStatus }) {
