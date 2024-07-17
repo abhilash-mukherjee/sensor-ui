@@ -47,3 +47,13 @@ export const getRottenZones = selector({
       return preExistingRottenZones + countForZone1 + countForZone2;
   }
 });
+
+export const immovableSpace1TimeSeriesState = atom({
+  key: 'immovableSpace1TimeSeriesState',
+  default: [],
+});
+
+export const immovableSpace2TimeSeriesState = atom({
+  key: 'immovableSpace2TimeSeriesState',
+  default: [],
+});

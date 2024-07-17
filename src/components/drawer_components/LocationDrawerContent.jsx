@@ -4,6 +4,8 @@ import { getLocationStatus, getLocationStatusFromSensorReading } from "../../hel
 import { Box, Text, Flex } from '@chakra-ui/react';
 import { immovableSpace1State, immovableSpace2State } from "../../store/immovableSpaceDataAtoms";
 import { SensorDataContainer } from '../drawer_components/SensorDataContainer'
+import TimeSeriesChart from "./TimeSeriesChart";
+import { ChartContainer } from "./ChartContainer";
 const immovableSpace1Path = import.meta.env.VITE_IMMOVABLE_SPACE_1_PATH;
 const immovableSpace2Path = import.meta.env.VITE_IMMOVABLE_SPACE_2_PATH;
 
@@ -18,7 +20,7 @@ export function LocationDrawerContent({ activeImmovableSpacePath }) {
         <>
             <div>Level: <b>{activeImmovableSpacePath}</b></div>
             <FreshnessStatusContainer isDataAvailable={isDataAvailable} locationStatus={locationStatus} />
-            <TimeSeriesChart readings={[10, 20, 30, 40]} interval={5} />
+            <ChartContainer activeImmovableSpacePath={activeImmovableSpacePath} locationStatus={locationStatus}/>
             {!isDataAvailable ? <Text>Loading Sensor Data...</Text>
                 : <SensorDataContainer sensorData={sensorData} />
             }
@@ -94,67 +96,3 @@ function getColourForStatus(status) {
     return 'white'
 }
 
-import { Line } from 'react-chartjs-2';
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js';
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-);
-
-const TimeSeriesChart = ({ readings, interval }) => {
-    // Create labels based on the interval
-    const labels = readings.map((_, index) => `${index * interval} seconds`);
-
-    const data = {
-        labels,
-        datasets: [
-            {
-                label: 'Readings',
-                data: readings,
-                borderColor: 'rgb(75, 192, 192)',
-                backgroundColor: 'rgba(75, 192, 192, 0.5)',
-            },
-        ],
-    };
-
-    const options = {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        },
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                text: 'Readings Over Time',
-            },
-        },
-    };
-
-    return (
-        <Box border="1px" borderColor="gray.200" p={4}>
-            <Line data={data} options={options} />
-        </Box>
-    );
-};
-
-export default TimeSeriesChart;

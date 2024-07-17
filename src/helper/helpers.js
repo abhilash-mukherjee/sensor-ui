@@ -16,7 +16,8 @@ export function getColorForState(state){
 export function getLocationStatus(immovableSpaceData) {
     if(!immovableSpaceData.sensorData || !immovableSpaceData.immovableSpace) return FreshnessStatus.Premature;
     console.log("Querying location status for :",immovableSpaceData)
-    const data = thresholdData[immovableSpaceData.immovableSpace.sku];  
+    const thresholdForSensor = thresholdData[immovableSpaceData.sensorData.name];  
+    const data = thresholdForSensor[immovableSpaceData.immovableSpace.sku]
     console.log("Data = ", data)  
     const gasReading = immovableSpaceData.sensorData.gasReading;
     const calibrationFactor = immovableSpaceData.sensorData.calibrationFactor;
