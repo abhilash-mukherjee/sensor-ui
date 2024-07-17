@@ -4,7 +4,11 @@ export const thresholdData = {
         "rottingThreshold": 15
     },
     "GUAVA": {
-        "edibleThreshold": 1,
-        "rottingThreshold": 2
+        "edibleThreshold": 7,
+        "rottingThreshold": 18
+    },
+    "AVOCARDO": {
+        "edibleThreshold": 4,
+        "rottingThreshold": 10
     }
 }

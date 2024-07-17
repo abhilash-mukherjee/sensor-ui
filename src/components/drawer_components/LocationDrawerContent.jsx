@@ -17,12 +17,13 @@ export function LocationDrawerContent({ activeImmovableSpacePath }) {
     return (
         <>
             <div>Level: <b>{activeImmovableSpacePath}</b></div>
-            <FreshnessStatusContainer isDataAvailable={isDataAvailable} locationStatus={locationStatus}/>
-            <HUTab1 />
-            <HUTab2 />
+            <FreshnessStatusContainer isDataAvailable={isDataAvailable} locationStatus={locationStatus} />
+            <TimeSeriesChart readings={[10, 20, 30, 40]} interval={5} />
             {!isDataAvailable ? <Text>Loading Sensor Data...</Text>
                 : <SensorDataContainer sensorData={sensorData} />
             }
+            <HUTab1 sku={activeImmovableSpace.immovableSpace ? activeImmovableSpace.immovableSpace.sku : "Loading..."} />
+            <HUTab2 sku={activeImmovableSpace.immovableSpace ? activeImmovableSpace.immovableSpace.sku : "Loading..."} />
         </>
     )
 }
@@ -30,17 +31,19 @@ export function LocationDrawerContent({ activeImmovableSpacePath }) {
 function FreshnessStatusContainer({ isDataAvailable, locationStatus }) {
     return (
         <>
-            {isDataAvailable ?
-                <Text color={locationStatus.color}>Freshness Status: <b color={locationStatus.color}>{locationStatus.description}</b>
-                </Text> :
-                <Text>Freshness Status:
-                    <b>Unavailable</b>
-                </Text>
-            }
+            <Flex mb={5}>
+                {isDataAvailable ?
+                    <Text color={locationStatus.color}>Freshness Status: <b color={locationStatus.color}>{locationStatus.description}</b>
+                    </Text> :
+                    <Text>Freshness Status:
+                        <b>Unavailable</b>
+                    </Text>
+                }
+            </Flex>
         </>
     )
 }
-function HUTab1() {
+function HUTab1({ sku }) {
     return (
         <>
             <Box
@@ -51,7 +54,7 @@ function HUTab1() {
                 paddingBlock={2}>
                 <Flex justifyContent={'space-between'}>
                     <Text>HU ID: <b>P231</b></Text>
-                    <Text>Item: <b>Banana</b></Text>
+                    <Text>Item: <b>{sku}</b></Text>
                 </Flex>
                 <Flex justifyContent={'space-between'}>
                     <Text>SKU ID: <b>S92020398</b></Text>
@@ -62,7 +65,7 @@ function HUTab1() {
     )
 }
 
-function HUTab2() {
+function HUTab2({ sku }) {
     return (
         <>
             <Box
@@ -73,7 +76,7 @@ function HUTab2() {
                 paddingBlock={2}>
                 <Flex justifyContent={'space-between'}>
                     <Text>HU ID: <b>C351</b></Text>
-                    <Text>Item: <b>Banana</b></Text>
+                    <Text>Item: <b>{sku}</b></Text>
                 </Flex>
                 <Flex justifyContent={'space-between'}>
                     <Text>SKU ID: <b>S72520393</b></Text>
@@ -90,3 +93,68 @@ function getColourForStatus(status) {
     if (status === 'ROTTEN') return 'red.500'
     return 'white'
 }
+
+import { Line } from 'react-chartjs-2';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+);
+
+const TimeSeriesChart = ({ readings, interval }) => {
+    // Create labels based on the interval
+    const labels = readings.map((_, index) => `${index * interval} seconds`);
+
+    const data = {
+        labels,
+        datasets: [
+            {
+                label: 'Readings',
+                data: readings,
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            },
+        ],
+    };
+
+    const options = {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        },
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Readings Over Time',
+            },
+        },
+    };
+
+    return (
+        <Box border="1px" borderColor="gray.200" p={4}>
+            <Line data={data} options={options} />
+        </Box>
+    );
+};
+
+export default TimeSeriesChart;

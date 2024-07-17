@@ -11,6 +11,7 @@ export function getFormattedAmbientTemperature(ambientTemperatureDataFromServer,
 export function getFormattedSurfaceTemperature(surfaceTemperatureDataFromServer, currentGasReading, calibrationFactor) {
     let adjustedTemperature = surfaceTemperatureDataFromServer * (1 + ((currentGasReading - calibrationFactor) / calibrationFactor) * surfaceTemperatureMultiplier);
     adjustedTemperature = parseFloat(adjustedTemperature.toFixed(1));
+    adjustedTemperature = adjustedTemperature > 60 ? 60 : adjustedTemperature;
     return adjustedTemperature;
 }
 

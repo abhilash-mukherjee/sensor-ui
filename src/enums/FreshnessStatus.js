@@ -1,16 +1,16 @@
 export const FreshnessStatus = Object.freeze({
     Premature: {
-      description: "Premature",
+      description: "Raw",
       color: "green.500",
       standardColor: "green"
     },
     Edible: {
-      description: "Ready to eat",
+      description: "Ripe",
       color: "yellow.500",
       standardColor: "yellow"
     },
     Rotten: {
-      description: "Spoiled",
+      description: "Rotten",
       color: "red.500",      
       standardColor: "red"
     }

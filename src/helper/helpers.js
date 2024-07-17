@@ -14,6 +14,7 @@ export function getColorForState(state){
 }
 
 export function getLocationStatus(immovableSpaceData) {
+    if(!immovableSpaceData.sensorData || !immovableSpaceData.immovableSpace) return FreshnessStatus.Premature;
     console.log("Querying location status for :",immovableSpaceData)
     const data = thresholdData[immovableSpaceData.immovableSpace.sku];  
     console.log("Data = ", data)  

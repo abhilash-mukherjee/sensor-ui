@@ -1,6 +1,8 @@
 import { Box, Flex, Text, Badge, Circle, HStack } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import { rawQtyState, ripeQtyState, rottenQtyState } from "../store/freshnessDataStateAtom";
+import { getEdibleZones, getPrematureZones, getRottenZones } from "../store/immovableSpaceDataAtoms";
+import { FreshnessStatus } from "../enums/FreshnessStatus";
 
 
 export default function OverviewContainer() {
@@ -32,7 +34,7 @@ export default function OverviewContainer() {
 
 
 const ZonesRotting = () => {
-  const rottingQty = useRecoilValue(rottenQtyState);
+  const rottingQty = useRecoilValue(getRottenZones);
   return (
     <Box
       p={3}
@@ -55,7 +57,7 @@ const ZonesRotting = () => {
 
 
 const ZonesRipe = () => {
-  const ripeQty = useRecoilValue(ripeQtyState);
+  const ripeQty = useRecoilValue(getEdibleZones);
   return (
     <Box
       p={3}
@@ -77,7 +79,7 @@ const ZonesRipe = () => {
 };
 
 const ZonesRaw = () => {
-  const rawQty = useRecoilValue(rawQtyState);
+  const rawQty = useRecoilValue(getPrematureZones);
   return (
     <Box
       p={3}
@@ -100,9 +102,9 @@ const ZonesRaw = () => {
 
 const Indications = () => {
   const indications = [
-    { label: "Raw", color: "green.500" },
-    { label: "Ripe", color: "yellow.400" },
-    { label: "Rotten", color: "red.500" }
+    { label: FreshnessStatus.Premature.description, color: "green.500" },
+    { label: FreshnessStatus.Edible.description, color: "yellow.400" },
+    { label: FreshnessStatus.Rotten.description, color: "red.500" }
   ];
 
   return (
@@ -127,7 +129,7 @@ const GradientBar = () => {
   ];
 
   return (
-    <Flex align="stretch" width="100%" height="32px" borderRadius="md" overflow="hidden">
+    <Flex align="stretch" width="100%" height="32px" borderRadius="md" overflow="hidden" justifyContent={'space-between'}>
       {segments.map((segment, index) => (
         <Box
           key={index}
